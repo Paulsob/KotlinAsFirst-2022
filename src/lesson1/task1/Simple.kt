@@ -69,10 +69,10 @@ fun main() {
     seconds(8, 20, 35);
     lengthInMeters(8, 2, 11)
     angleInRadian(36, 14, 35)
-    trackLength(3, 0, 0, 4)
+    trackLength(3.0, 0.0, 0.0, 4.0)
     thirdDigit(3801)
     travelMinutes(9, 25, 13, 1)
-    accountInThreeYears(100.0, 10.0)
+    accountInThreeYears(100, 10)
     numberRevert(478)
 
 }
@@ -88,7 +88,7 @@ fun main() {
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
     val timeToSeconds = hours * 3600 + minutes * 60 + seconds
     println(timeToSeconds)
-    return 0;
+    return timeToSeconds;
 }
 
 /**
@@ -98,10 +98,10 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Int {
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val toMetres = sagenes * 48 * 4.445 / 100 + arshins * 48 / 3 * 4.445 / 100 + vershoks * 4.445 / 100
     println(toMetres)
-    return 0;
+    return toMetres;
 }
 
 /**
@@ -110,10 +110,11 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Int {
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(deg: Int, min: Int, sec: Int): Int {
-    val inDegrees = (deg + min / 60 + sec / 3600) * 3.14 / 180
-    println(inDegrees)
-    return 0;
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
+    val m = floor(min.toDouble() / 60 * 100000) / 100000
+    val s = floor(sec.toDouble() / 3600 * 100000) / 100000
+    val inDegrees = floor((deg + m + s) * PI / 180 * 100000) / 100000
+    return inDegrees;
 }
 
 /**
@@ -123,14 +124,14 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Int {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 
-fun trackLength(x1: Int, y1: Int, x2: Int, y2: Int): Int {
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     val e = sqr(x2 - x1) + sqr(y2 - y1)
     val f = sqrt(e.toDouble())
     println(f)
-    return 0;
+    return f;
 }
 
-    /**
+/**
  * Простая (2 балла)
  *
  * Пользователь задает целое число, больше или равно 100 (например, 3801).
@@ -139,7 +140,7 @@ fun trackLength(x1: Int, y1: Int, x2: Int, y2: Int): Int {
 fun thirdDigit(number: Int): Int {
     val third = number / 100 % 10
     println(third)
-    return 0;
+    return third;
 }
 
 /**
@@ -152,7 +153,7 @@ fun thirdDigit(number: Int): Int {
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     val toMinutes = (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
     println(toMinutes)
-    return 0;
+    return toMinutes;
 }
 
 /**
@@ -162,11 +163,10 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Double, percent: Double): Int {
-    val a = (initial + percent) / 100
-    val threeYears = a * a * a
-    println(threeYears)
-    return 0;
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+    val a = (1 + percent.toDouble() / 100)
+    val threeYears = floor(a.pow(3) * 1000.0) / 1000.0
+    return threeYears * initial;
 }
 
 /**
@@ -179,8 +179,6 @@ fun numberRevert(number: Int): Int {
     val a = number % 10
     val b = number % 100 / 10
     val c = number / 100
-    print(a)
-    print(b)
-    print(c)
-    return 0;
+    val d = "$a$b$c"
+    return d.toInt();
 }
