@@ -87,8 +87,7 @@ fun main() {
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
     val timeToSeconds = hours * 3600 + minutes * 60 + seconds
-    println(timeToSeconds)
-    return timeToSeconds;
+    return timeToSeconds
 }
 
 /**
@@ -100,8 +99,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val toMetres = sagenes * 48 * 4.445 / 100 + arshins * 48 / 3 * 4.445 / 100 + vershoks * 4.445 / 100
-    println(toMetres)
-    return toMetres;
+    return toMetres
 }
 
 /**
@@ -111,10 +109,10 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
-    val m = floor(min.toDouble() / 60 * 100000) / 100000
-    val s = floor(sec.toDouble() / 3600 * 100000) / 100000
-    val inDegrees = floor((deg + m + s) * PI / 180 * 100000) / 100000
-    return inDegrees;
+    val m = min.toDouble() / 60
+    val s = sec.toDouble() / 3600
+    val inDegrees = (deg + m + s) * PI / 180
+    return inDegrees
 }
 
 /**
@@ -127,8 +125,7 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     val e = sqr(x2 - x1) + sqr(y2 - y1)
     val f = sqrt(e.toDouble())
-    println(f)
-    return f;
+    return f
 }
 
 /**
@@ -139,8 +136,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  */
 fun thirdDigit(number: Int): Int {
     val third = number / 100 % 10
-    println(third)
-    return third;
+    return third
 }
 
 /**
@@ -152,8 +148,7 @@ fun thirdDigit(number: Int): Int {
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     val toMinutes = (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
-    println(toMinutes)
-    return toMinutes;
+    return toMinutes
 }
 
 /**
@@ -165,8 +160,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val a = (1 + percent.toDouble() / 100)
-    val threeYears = floor(a.pow(3) * 1000.0) / 1000.0
-    return threeYears * initial;
+    val threeYears = a.pow(3) * 1000.0 / 1000.0
+    return threeYears * initial
 }
 
 /**
@@ -180,5 +175,5 @@ fun numberRevert(number: Int): Int {
     val b = number % 100 / 10
     val c = number / 100
     val d = "$a$b$c"
-    return d.toInt();
+    return d.toInt()
 }
