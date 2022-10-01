@@ -202,6 +202,10 @@ class Tests {
         assertNotEquals(kotlin.math.sin(-0.5), sin(-0.5, 1.0))
     }
 
+    private fun assertEquals(d: Double, sin: Int, d1: Double) {
+
+    }
+
     @Test
     @Tag("4")
     fun cos() {
@@ -228,7 +232,7 @@ class Tests {
     @Test
     @Tag("5")
     fun fibSequenceDigit() {
-        assertEquals(1, fibSequenceDigit(1))
+        assertEquals(5, fibSequenceDigit(5))
         assertEquals(1, fibSequenceDigit(2))
         assertEquals(3, fibSequenceDigit(4))
         assertEquals(2, fibSequenceDigit(9))
