@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -21,6 +22,7 @@ fun factorial(n: Int): Double {
     }
     return result
 }
+
 
 /**
  * Пример
@@ -72,7 +74,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    if (number == 0) {
+        return 1
+    }
+    while (number != 0) {
+        number /= 10
+        count++
+    }
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -80,21 +93,54 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var a = 1
+    var b = 1
+    var c = 0
+    if (n == 1 || n == 2) {
+        c = 1
+    }
+    for (i in 3..n) {
+        c = a + b
+        a = b
+        b = c
+    }
+    return c
+}
+
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var divisor = 0
+    for (m in 2..n) {
+        if (n % m == 0) {
+            divisor = m
+            break
+        }
+    }
+    return divisor
+}
+
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var divisor = 0
+    for (m in n - 1 downTo 1) {
+        if (n % m == 0) {
+            divisor = m
+            break
+        }
+    }
+    return divisor
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +158,17 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var c = x
+    var i = 0
+    while (c != 1) {
+        if (c % 2 == 0) {
+            c /= 2
+        } else c = 3 * c + 1
+        i++
+    }
+    return i
+}
 
 /**
  * Средняя (3 балла)
@@ -120,7 +176,16 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var multiple = 0
+    for (k in 1..m * n) {
+        if ((k % m == 0) && (k % n == 0)) {
+            multiple = k
+            break
+        }
+    }
+    return multiple
+}
 
 /**
  * Средняя (3 балла)
@@ -129,7 +194,15 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val max = maxOf(m, n)
+    for (k in 2..max) {
+        if (m % k == 0 && n % k == 0) {
+            return false
+        }
+    }
+    return true
+}
 
 /**
  * Средняя (3 балла)
@@ -170,7 +243,22 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Int {
+    var degree = 1
+    var a = 0
+    var b = 0
+    val sign = -1
+    for (i in 1..1000) {
+        degree += 2
+        a = ((x.pow(degree) / factorial(degree)) * sign).toInt()
+    }
+    while (abs(x) > abs(eps)) {
+        b = a + a
+        break
+    }
+    val c = b
+    return c
+}
 
 /**
  * Средняя (4 балла)
@@ -181,7 +269,23 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Int {
+    var degree = 0
+    var a = 0
+    var b = 0
+    val sign = -1
+    for (i in 1..1000) {
+        degree += 2
+        a = ((1 - (x.pow(degree) / factorial(degree))) * sign).toInt()
+    }
+    while (abs(x) > abs(eps)) {
+        b = a + a
+        break
+    }
+    val c = b
+    return c
+}
+
 
 /**
  * Сложная (4 балла)
@@ -192,7 +296,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var newI = 0
+    var a = 0
+    for (i in 1..n) {
+        newI = i * i
+        a += digitNumber(newI)
+        if (a >= n) {
+            while (a > n) {
+                newI /= 10
+                a--
+            }
+            newI %= 10
+            break
+        }
+    }
+    return newI
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +323,27 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var a = 1
+    var b = 1
+    var c = 0
+    var count = 2
+    if (n == 1 || n == 2) {
+        return 1
+    }
+    for (i in 3..n + 2) {
+        c = a + b
+        a = b
+        b = c
+        count += digitNumber(c)
+        if (count >= n) {
+            while (count > n) {
+                c /= 10
+                count--
+            }
+            c %= 10
+            break
+        }
+    }
+    return c
+}
