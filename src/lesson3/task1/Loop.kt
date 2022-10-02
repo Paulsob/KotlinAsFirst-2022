@@ -247,6 +247,7 @@ fun sin(x: Double, eps: Double): Int {
     var degree = 1
     var a = 0
     var b = 0
+    var c = 0
     val sign = -1
     for (i in 1..1000) {
         degree += 2
@@ -256,7 +257,7 @@ fun sin(x: Double, eps: Double): Int {
         b = a + a
         break
     }
-    val c = b
+    c = b
     return c
 }
 
@@ -273,6 +274,7 @@ fun cos(x: Double, eps: Double): Int {
     var degree = 0
     var a = 0
     var b = 0
+    var c = 0
     val sign = -1
     for (i in 1..1000) {
         degree += 2
@@ -282,7 +284,7 @@ fun cos(x: Double, eps: Double): Int {
         b = a + a
         break
     }
-    val c = b
+    c = b
     return c
 }
 
