@@ -117,13 +117,13 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    val equality1 = kingX == rookX1 || kingY == rookY1
-    val equality2 = kingX == rookX2 || kingY == rookY2
-    val equalityBoth = (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)
+    val kingRook1 = kingX == rookX1 || kingY == rookY1
+    val kingRook2 = kingX == rookX2 || kingY == rookY2
+    val both = (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)
     return when {
-        equalityBoth -> 3
-        equality1 -> 1
-        equality2 -> 2
+        both -> 3
+        kingRook1 -> 1
+        kingRook2 -> 2
         else -> 0
     }
 }
@@ -167,11 +167,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int =
     when {
         (a > b + c) || (b > a + c) || (c > a + b) -> -1
         ((sqr(a) == sqr(b) + sqr(c)) || (sqr(b) == sqr(a) + sqr(c)) || (sqr(c) == sqr(a) + sqr(b))) -> 1
-
         ((sqr(a) > sqr(b) + sqr(c)) || (sqr(b) > sqr(a) + sqr(c)) || (sqr(c) > sqr(a) + sqr(b))) -> 2
-
         ((sqr(a) < sqr(b) + sqr(c)) || (sqr(b) < sqr(a) + sqr(c)) || (sqr(c) < sqr(a) + sqr(b))) -> 0
-
         else -> -1
     }
 
