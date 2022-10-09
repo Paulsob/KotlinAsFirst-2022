@@ -2,7 +2,9 @@
 
 package lesson4.task1
 
+import kotlin.math.*
 import lesson1.task1.discriminant
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -120,14 +122,23 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    val a = v.map { it * it }
+    return sqrt(a.sum())
+}
 
 /**
  * Простая (2 балла)
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    val size = list.size
+    if (size == 0) {
+        return 0.0
+    }
+    return list.sum() / size
+}
 
 /**
  * Средняя (3 балла)
@@ -137,7 +148,15 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val size = list.size
+    val medium = list.sum() / size
+    for (i in 0 until list.size) {
+        val element = list[i]
+        list[i] = element - medium
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -146,7 +165,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var c = 0
+    for (i in a.indices) {
+        c += a[i] * b[i]
+    }
+    return c
+}
 
 /**
  * Средняя (3 балла)
@@ -156,7 +181,13 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int {
+    var sum = 0
+    for (i in 0 until p.size) {
+        sum += p[i] * x.toDouble().pow(p.indexOf(i)).toInt()
+    }
+    return sum
+}
 
 /**
  * Средняя (3 балла)
@@ -177,7 +208,25 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var number = n
+    val list = mutableListOf<Int>()
+    while (number % 2 == 0) {
+        number /= 2
+        list.add(2)
+    }
+    for (m in 3..number step 2) {
+        while (number % m == 0) {
+            number /= m
+            list.add(m)
+        }
+    }
+    list.add(number)
+    if (number == 1) {
+        list.remove(number)
+    }
+    return list.sorted()
+}
 
 /**
  * Сложная (4 балла)
@@ -186,7 +235,26 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var number = n
+    val list = mutableListOf<Int>()
+    while (number % 2 == 0) {
+        number /= 2
+        list.add(2)
+    }
+    for (m in 3..number step 2) {
+        while (number % m == 0) {
+            number /= m
+            list.add(m)
+        }
+    }
+    list.add(number)
+    if (number == 1) {
+        list.remove(number)
+    }
+    val result = list.sorted() as MutableList<Int>
+    return result.joinToString(separator = "*")
+}
 
 /**
  * Средняя (3 балла)
