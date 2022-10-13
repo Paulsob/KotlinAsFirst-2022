@@ -99,6 +99,12 @@ fun timeForHalfWay(
         mediumS < s1 -> mediumS / v1
         mediumS < s1 + s2 -> t1 + (mediumS - s1) / v2
         mediumS > s1 + s2 -> t1 + t2 + (mediumS - s1 - s2) / v3
+        (s1 == 0.0 && s2 < mediumS) -> t2 + (mediumS - s2) / v3
+        (s1 == 0.0 && s2 >= mediumS) -> mediumS / v2
+        (s2 == 0.0 && s1 < mediumS) -> t1 + (mediumS - s1) / v3
+        (s2 == 0.0 && s1 >= mediumS) -> mediumS / v1
+        (s3 == 0.0 && s1 < mediumS) -> t1 + (mediumS - s1) / v2
+        (s3 == 0.0 && s1 >= mediumS) -> mediumS / v1
         else -> 0.0
     }
 }
@@ -189,6 +195,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
         (a == c && d < b) || (a < c && d < b) -> d - c
         (c < a && d < b && d > a) -> d - a
         (c < a && b < d && a < b) -> b - a
-        (b == c && a < b && c < d) -> 0
+        ((b == c && a < b && c < d) || a == b && b == c && c == d) -> 0
         else -> -1
     }
