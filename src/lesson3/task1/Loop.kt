@@ -98,7 +98,7 @@ fun fib(n: Int): Int {
     var b = 1
     var c = 0
     if (n == 1 || n == 2) {
-        c = 1
+        return 1
     }
     for (i in 3..n) {
         c = a + b
@@ -116,7 +116,10 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var divisor = 0
-    for (m in 2..n) {
+    if (n % 2 == 0) {
+        return 2
+    }
+    for (m in 3..n step 2) {
         if (n % m == 0) {
             divisor = m
             break
@@ -125,7 +128,6 @@ fun minDivisor(n: Int): Int {
     return divisor
 }
 
-
 /**
  * Простая (2 балла)
  *
@@ -133,12 +135,9 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var divisor = 0
-    for (m in n - 1 downTo 1) {
-        if (n % m == 0) {
-            divisor = m
-            break
-        }
-    }
+    divisor = if (n % 2 == 0) {
+        n / 2
+    } else n / minDivisor(n)
     return divisor
 }
 
@@ -178,7 +177,8 @@ fun collatzSteps(x: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var multiple = 0
-    for (k in 1..m * n) {
+    val max = maxOf(m, n)
+    for (k in max..m * n) {
         if ((k % m == 0) && (k % n == 0)) {
             multiple = k
             break
