@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 
-package lesson2.task2
+package lesson1.task1.lesson2.task2
 
 import lesson1.task1.sqr
 import kotlin.math.abs
