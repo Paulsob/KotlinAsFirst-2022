@@ -4,7 +4,6 @@ package lesson4.task1
 
 import kotlin.math.*
 import lesson1.task1.discriminant
-import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -122,10 +121,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    val a = v.map { it * it }
-    return sqrt(a.sum())
-}
+fun abs(v: List<Double>) = sqrt(v.map { it * it }.sum())
 
 /**
  * Простая (2 балла)
@@ -134,7 +130,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     val size = list.size
-    if (size == 0) {
+    if (list.isEmpty()) {
         return 0.0
     }
     return list.sum() / size
@@ -149,11 +145,9 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val size = list.size
-    val medium = list.sum() / size
+    val medium = mean(list)
     for (i in 0 until list.size) {
-        val element = list[i]
-        list[i] = element - medium
+        list[i] -= medium
     }
     return list
 }
@@ -165,13 +159,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int {
-    var c = 0
-    for (i in a.indices) {
-        c += a[i] * b[i]
-    }
-    return c
-}
+fun times(a: List<Int>, b: List<Int>) = a.mapIndexed { index, i -> a[index] * b[index] }.sum()
 
 /**
  * Средняя (3 балла)
@@ -181,13 +169,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int {
-    var sum = 0
-    for (i in p.indices) {
-        sum += p[i] * x.toDouble().pow(p.indexOf(i)).toInt()
-    }
-    return sum
-}
+fun polynom(p: List<Int>, x: Int) = p.mapIndexed { index, i -> i * x.toDouble().pow(index).toInt() }.sum()
 
 /**
  * Средняя (3 балла)
@@ -211,11 +193,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
 fun factorize(n: Int): List<Int> {
     var number = n
     val list = mutableListOf<Int>()
-    while (number % 2 == 0) {
-        number /= 2
-        list.add(2)
-    }
-    for (m in 3..number step 2) {
+    for (m in 2..sqrt(number.toDouble()).toInt()) {
         while (number % m == 0) {
             number /= m
             list.add(m)
@@ -235,26 +213,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    var number = n
-    val list = mutableListOf<Int>()
-    while (number % 2 == 0) {
-        number /= 2
-        list.add(2)
-    }
-    for (m in 3..number step 2) {
-        while (number % m == 0) {
-            number /= m
-            list.add(m)
-        }
-    }
-    list.add(number)
-    if (number == 1) {
-        list.remove(number)
-    }
-    val result = list.sorted() as MutableList<Int>
-    return result.joinToString(separator = "*")
-}
+fun factorizeToString(n: Int) = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя (3 балла)
@@ -263,7 +222,18 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+    var remainder = 0
+    val list = mutableListOf<Int>()
+    while (number >= base) {
+        remainder = number % base
+        list.add(remainder)
+        number /= base
+    }
+    list.add(number)
+    return list.reversed()
+}
 
 /**
  * Сложная (4 балла)
@@ -276,7 +246,48 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val alphabet = Array(26) { i -> ('a' + i).toString() }
+    val list1 = convert(n, base).toMutableList()
+    val list2 = mutableListOf<String>()
+    val list3 = list1
+    for ((index, element) in list1.withIndex()) {
+        if (element > 9) {
+            list2.add(alphabet[element - 10])
+            list3.remove(element)
+        }
+        continue
+    }
+    return (list3 + list2).joinToString(separator = "", prefix = "", postfix = "")
+}
+
+/**fun binarySearch(array: Array<Int>, element: Int): Boolean {
+for (index in array) {
+if (array[index] == element) {
+return true
+}
+1 }
+return false
+}
+ */
+
+/**fun binary(array: Array<Int>, element: Int): Boolean {
+var h = array.size - 1
+var m = h / 2
+var l = 0
+while (m != element) {
+if (array[h / 2] < element) {
+l = array[element] + 1
+m = (h - l) / 2
+}
+if (array[h / 2] > element) {
+h = array[element] - 1
+m = (h - l) / 2
+}
+}
+return true
+}
+ */
 
 /**
  * Средняя (3 балла)
@@ -285,7 +296,8 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int) =
+    digits.reversed().mapIndexed { index, i -> i * base.toDouble().pow(index).toInt() }.sum()
 
 /**
  * Сложная (4 балла)
