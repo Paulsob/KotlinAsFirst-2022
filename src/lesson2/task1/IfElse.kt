@@ -199,7 +199,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     }*/
     val max = max(a, c)
     val min = min(b, d)
-    if ((a < b && b < c && c < d) || (c < d && d < a && a < b)) {
+    if ((a < b && b < c && c < d) || (c < d && d < a && a < b) || (a == b) || (c == d)) {
         return -1
     }
     return abs(max - min)
