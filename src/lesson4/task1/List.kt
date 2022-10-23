@@ -246,30 +246,10 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String {
-    val alphabet = Array(26) { i -> ('a' + i).toString() }
-    val list1 = convert(n, base).toMutableList()
-    val list2 = mutableListOf<String>()
-    val list3 = list1
-    for ((index, element) in list1.withIndex()) {
-        if (element > 9) {
-            list2.add(alphabet[element - 10])
-            list3.remove(element)
-        }
-        continue
-    }
-    return (list3 + list2).joinToString(separator = "", prefix = "", postfix = "")
+fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") {
+    if (it > 9) "${'a' + it - 10}"
+    else "$it"
 }
-
-/**fun binarySearch(array: Array<Int>, element: Int): Boolean {
-for (index in array) {
-if (array[index] == element) {
-return true
-}
-1 }
-return false
-}
- */
 
 /**fun binary(array: Array<Int>, element: Int): Boolean {
 var h = array.size - 1
@@ -321,7 +301,19 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = n
+    val result = mutableListOf<String>()
+    val listLetters = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val listNumbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    for (element in listNumbers) {
+        while (number >= element) {
+            number -= element
+            result.add(listLetters[listNumbers.indexOf(element)])
+        }
+    }
+    return result.joinToString(separator = "", prefix = "", postfix = "")
+}
 
 /**
  * Очень сложная (7 баллов)
