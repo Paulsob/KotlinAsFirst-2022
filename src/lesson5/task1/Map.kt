@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+/**import lesson1.task1.seconds
+import kotlin.math.max*/
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -96,7 +99,17 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val result = mutableMapOf<Int, MutableList<String>>()
+    for ((key, value) in grades) {
+        if (value in result.keys) {
+            result[value]?.add(key)
+        } else {
+            result[value] = mutableListOf(key)
+        }
+    }
+    return result
+}
 
 /**
  * Простая (2 балла)
@@ -108,7 +121,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>) = b + a == a || b + a == b
 
 /**
  * Простая (2 балла)
@@ -125,7 +138,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    TODO()
+    for ((key, value) in b) {
+        if (a[key] == value) a.remove(key)
+    }
 }
 
 /**
@@ -135,7 +150,29 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+
+fun checkResult(result: List<String>, k: String): Boolean {
+    for (i in result) {
+        if (k == i) {
+            return true
+        }
+    }
+    return false
+}
+
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val result = mutableListOf<String>()
+    for (i in a) {
+        for (j in b) {
+            if (i == j) {
+                if (!checkResult(result, i)) {
+                    result.add(i)
+                }
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Средняя (3 балла)
@@ -154,7 +191,28 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val map: MutableMap<String, String> = mutableMapOf()
+    map.putAll(mapB)
+    val result: MutableMap<String, String> = mutableMapOf()
+    var valueStr = ""
+    for ((key, valueA) in mapA) {
+        if (map.containsKey(key)) {
+            valueStr = if (valueA == map[key]) {
+                valueA
+            } else {
+                valueA + ", " + map[key]
+            }
+            result += (key to valueStr)
+            map.remove(key)
+            valueStr = ""
+        } else {
+            result += (key to valueA)
+        }
+    }
+    result.putAll(map)
+    return result;
+}
 
 /**
  * Средняя (4 балла)
@@ -166,7 +224,24 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    return buildMap {
+        for ((key, value) in stockPrices) {
+            if (!containsKey(key)) this[key] = value
+            else this[key] = this[key]!!.plus(value)
+        }
+        for (stock in this.keys) {
+            val count = stockPrices.count { it.first == stock }
+            if (count >= 1) this[stock] = this[stock]!! / count
+        }
+    }
+}
+/**
+ * 1-9
+ * 11-19
+ * 20-99
+ * 100-999
+ */
 
 /**
  * Средняя (4 балла)
