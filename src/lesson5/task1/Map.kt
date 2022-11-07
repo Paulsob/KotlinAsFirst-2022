@@ -121,8 +121,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>) = if (a.isNotEmpty() && b.isNotEmpty()) b + a == a || b + a == b else false
-
+fun containsIn(a: Map<String, String>, b: Map<String, String>) = if (a.isNotEmpty() && b.isNotEmpty())
+    b + a == a || b + a == b else false
 
 /**
  * Простая (2 балла)
