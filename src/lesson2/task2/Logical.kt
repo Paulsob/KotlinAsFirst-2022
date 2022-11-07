@@ -6,6 +6,7 @@ import lesson1.task1.sqr
 import lesson1.task1.trackLength
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -61,7 +62,12 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = trackLength(x1, y1, x2, y2) <= r2 - r1
+): Boolean {
+    return when {
+        sqrt((y2 - y1).pow(2) + (x2 - x1).pow(2)) + r1 <= r2 -> true
+        else -> false
+    }
+}
 
 /**
  * Средняя (3 балла)
