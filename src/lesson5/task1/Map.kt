@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+import kotlin.math.min
+
 /**import lesson1.task1.seconds
 import kotlin.math.max*/
 
@@ -121,8 +124,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>) = if (a.isNotEmpty() && b.isNotEmpty())
-    b + a == a || b + a == b else false
+fun containsIn(a: Map<String, String>, b: Map<String, String>) = if ((a.isNotEmpty() && b.isNotEmpty()) ||
+    (a.isEmpty() && b.isEmpty())
+) b + a == a || b + a == b else false
 
 /**
  * Простая (2 балла)
@@ -237,12 +241,6 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
         }
     }
 }
-/**
- * 1-9
- * 11-19
- * 20-99
- * 100-999
- */
 
 /**
  * Средняя (4 балла)
@@ -259,7 +257,16 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    val list = mutableListOf<String>()
+    for ((key, value) in stuff) {
+        if (kind == value.first) {
+            list.add(key)
+        } else return null
+    }
+    list.sorted()
+    return list[0]
+}
 
 /**
  * Средняя (3 балла)
@@ -353,7 +360,18 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    for (element in list) {
+        for (item in list) {
+            if (element + item == number && element != item) {
+                val max = max(list.indexOf(element), list.indexOf(item))
+                val min = min(list.indexOf(element), list.indexOf(item))
+                return min to max
+            }
+        }
+    }
+    return -1 to -1
+}
 
 /**
  * Очень сложная (8 баллов)
