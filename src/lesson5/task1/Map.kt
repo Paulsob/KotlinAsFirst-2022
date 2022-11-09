@@ -124,7 +124,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>) = b + a == a || b + a == b
+fun containsIn(a: Map<String, String>, b: Map<String, String>) = if ((a.isNotEmpty() && b.isNotEmpty()) ||
+    (a.isEmpty() && b.isEmpty())
+) b + a == a || b + a == b else false
 
 /**
  * Простая (2 балла)
@@ -258,7 +260,10 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     val list = mutableListOf<String>()
     for ((key, value) in stuff) {
-        if (kind == value.first && kind.isNotEmpty()) {
+        if (kind == value.first) {
+            if (key.isEmpty()) {
+                return key
+            }
             list.add(key)
         } else return null
     }
@@ -358,18 +363,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    for (element in list) {
-        for (item in list) {
-            if (element + item == number && list.indexOf(element) != list.indexOf(item)) {
-                val max = max(list.indexOf(element), list.indexOf(item))
-                val min = min(list.indexOf(element), list.indexOf(item))
-                return min to max
-            }
-        }
-    }
-    return -1 to -1
-}
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
 
 /**
  * Очень сложная (8 баллов)
