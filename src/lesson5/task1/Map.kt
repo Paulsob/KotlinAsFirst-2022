@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.PositiveInfinity
 import kotlin.math.max
 import kotlin.math.min
 
@@ -124,9 +125,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>) = if ((a.isNotEmpty() && b.isNotEmpty()) ||
-    (a.isEmpty() && b.isEmpty())
-) b + a == a || b + a == b else false
+fun containsIn(a: Map<String, String>, b: Map<String, String>) = a + b == b
 
 /**
  * Простая (2 балла)
@@ -235,9 +234,9 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
             if (!containsKey(key)) this[key] = value
             else this[key] = this[key]!!.plus(value)
         }
-        for (stock in this.keys) {
-            val count = stockPrices.count { it.first == stock }
-            if (count >= 1) this[stock] = this[stock]!! / count
+        for (i in this.keys) {
+            val count = stockPrices.count { it.first == i }
+            this[i] = this[i]!! / count
         }
     }
 }
@@ -258,18 +257,20 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    val list = mutableListOf<String>()
+    var min = 99e99
+    var name = ""
+    var i = 0
     for ((key, value) in stuff) {
-        if (kind == value.first) {
-            if (key.isEmpty()) {
-                return key
-            }
-            list.add(key)
-        } else return null
+        if (kind == value.first && value.second < min) {
+            min = value.second
+            name = key
+            i++
+        }
     }
-    list.sorted()
-    return list[0]
+    if (i == 0) return null
+    return name
 }
+
 
 /**
  * Средняя (3 балла)
