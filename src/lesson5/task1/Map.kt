@@ -280,8 +280,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
-//chars.toSortedSet() == word.split("").toSortedSet()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet() == word.toSet()
 
 /**
  * Средняя (4 балла)
@@ -295,7 +294,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> =
+    list.groupBy { it }.mapValues { it.value.size }.filter { it.value >= 2 }
 
 /**
  * Средняя (3 балла)
@@ -364,7 +364,18 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    for (element in list) {
+        for (item in list) {
+            val max = max(list.indexOf(element), list.indexOf(item))
+            val min = min(list.indexOf(element), list.indexOf(item))
+            if (element + item == number && list.indexOf(element) != list.indexOf(item)) {
+                return min to max
+            }
+        }
+    }
+    return -1 to -1
+}
 
 /**
  * Очень сложная (8 баллов)
