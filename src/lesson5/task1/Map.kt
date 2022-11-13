@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import ru.spbstu.wheels.PositiveInfinity
+import ru.spbstu.wheels.sorted
 import kotlin.math.max
 import kotlin.math.min
 
@@ -280,7 +281,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet() + word.toSet() == chars.toSet()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet() + word.lowercase().toSet() == chars.toSet()
 
 /**
  * Средняя (4 балла)
@@ -372,7 +373,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         val a = number - n
         if (a in map && map[a] != ind) res = Pair(map[a]!!, ind)
     }
-    return res
+    return res.sorted()
 }
 
 /**
