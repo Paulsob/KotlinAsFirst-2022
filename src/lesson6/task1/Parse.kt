@@ -62,7 +62,6 @@ fun main() {
     }
 }
 
-
 /**
  * Средняя (4 балла)
  *
@@ -102,7 +101,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val new = phone.replace("[ -]".toRegex(), "")
+    if (!new.matches(Regex("""(\+\d+)?(\(\d+\))?\d+"""))) return ""
+    return new.replace("[()]".toRegex(), "")
+}
 
 /**
  * Средняя (5 баллов)
