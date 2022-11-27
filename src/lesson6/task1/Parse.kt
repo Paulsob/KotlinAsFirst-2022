@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import ru.spbstu.wheels.joinToString
 import java.lang.IllegalArgumentException
 
 // Урок 6: разбор строк, исключения
@@ -131,6 +132,19 @@ fun bestLongJump(jumps: String): Int {
     }
 }
 
+fun nalogi(table: Map<String, Int>, taxes: String): Map<String, Int> {
+    val map = mapOf<String, Int>()
+    if (!taxes.matches(Regex("""(([А-я]+\s)+-\s)+\d+""")))
+        throw IllegalArgumentException()
+    val newTaxes = taxes.split(" - ")
+    for ((key, value) in table) {
+        if (key in newTaxes) {
+
+        }
+    }
+    return map
+}
+
 /**
  * Сложная (6 баллов)
  *
@@ -168,7 +182,46 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (!expression.matches(Regex("""(\d+(\s(\+|\-)\s\d+)*)""")))
+        throw IllegalArgumentException("class.java")
+    val list = expression.split(" ")
+    val new = mutableListOf<Int>()
+    var res = 0
+    new.add(list[0].toInt())
+    for (el in list.indices) {
+        if (list[el] == "+") {
+            new.add(list[el + 1].toInt())
+        }
+        if (list[el] == "-") {
+            new.add(list[el + 1].toInt() - 2 * list[el + 1].toInt())
+        }
+    }
+    for (i in new.indices) {
+        res += new[i]
+    }
+    return res
+}
+
+fun myFun(table: Map<String, Int>, taxes: String): String {
+    val newTaxes = taxes.split(" - ")
+    val res = mutableMapOf<String, Double>()
+    if (!taxes.matches(Regex("""(([А-я]+\s)+-\s)+\d+""")))
+        throw IllegalArgumentException()
+    for ((key, value) in table) {
+        val price = newTaxes[2].toDouble()
+        res += if (key in newTaxes) {
+            val nalog = price * value / 100
+            val pair = newTaxes[0] to nalog.toDouble()
+            pair
+        } else {
+            val nalog = price * 13 / 100
+            val pair = newTaxes[0] to nalog.toDouble()
+            pair
+        }
+    }
+    return res.joinToString(separator = ", ", postfix = ")", prefix = "(")
+}
 
 /**
  * Сложная (6 баллов)
@@ -180,7 +233,6 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int = TODO()
-
 /**
  * Сложная (6 баллов)
  *

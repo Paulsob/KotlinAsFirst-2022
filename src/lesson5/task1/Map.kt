@@ -2,10 +2,7 @@
 
 package lesson5.task1
 
-import ru.spbstu.wheels.PositiveInfinity
 import ru.spbstu.wheels.sorted
-import kotlin.math.max
-import kotlin.math.min
 
 /**import lesson1.task1.seconds
 import kotlin.math.max*/
@@ -156,27 +153,10 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 
-fun checkResult(result: List<String>, k: String): Boolean {
-    for (i in result) {
-        if (k == i) {
-            return true
-        }
-    }
-    return false
-}
-
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val result = mutableListOf<String>()
-    for (i in a) {
-        for (j in b) {
-            if (i == j) {
-                if (!checkResult(result, i)) {
-                    result.add(i)
-                }
-            }
-        }
-    }
-    return result
+    val difference = (b.toSet() - a.toSet()) + (a.toSet() - b.toSet())
+    val result = a.toSet() + b.toSet() - difference
+    return result.toList()
 }
 
 /**
@@ -216,7 +196,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
         }
     }
     result.putAll(map)
-    return result;
+    return result
 }
 
 /**
@@ -230,16 +210,18 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    return buildMap {
-        for ((key, value) in stockPrices) {
-            if (!containsKey(key)) this[key] = value
-            else this[key] = this[key]!!.plus(value)
-        }
-        for (i in this.keys) {
-            val count = stockPrices.count { it.first == i }
-            this[i] = this[i]!! / count
+    val result = mutableMapOf<String, Double>()
+    val sumGroupPrices = stockPrices.groupBy({ it.first }) { it.second }.mapValues { it.value.sum() }
+    val count = stockPrices.groupBy({ it.first }) { it.second }.mapValues { it.value.size.toDouble() }
+    for ((key, value) in sumGroupPrices) {
+        for ((stock, counter) in count) {
+            if (stock == key) {
+                val pair = stock to (value / counter)
+                result += pair
+            }
         }
     }
+    return result
 }
 
 /**
@@ -259,7 +241,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var min = Double.POSITIVE_INFINITY
-    var name = null.toString()
+    var name: String? = null
     var i = 0
     for ((key, value) in stuff) {
         if (kind == value.first && value.second < min) {
@@ -268,7 +250,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
             i++
         }
     }
-    if (name == null.toString()) return null
+    if (name?.isEmpty() == true) return ""
     return name
 }
 
@@ -316,7 +298,7 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  * Сложная (5 баллов)
  *
  * Для заданного ассоциативного массива знакомых через одно рукопожатие `friends`
- * необходимо построить его максимальное расширение по рукопожатиям, то есть,
+ * необход to имо построить его максимальное расширение по рукопожатиям, то есть,
  * для каждого человека найти всех людей, с которыми он знаком через любое
  * количество рукопожатий.
  *
