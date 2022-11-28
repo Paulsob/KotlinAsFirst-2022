@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import lesson4.task1.mean
 import ru.spbstu.wheels.sorted
 
 /**import lesson1.task1.seconds
@@ -153,11 +154,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val difference = (b.toSet() - a.toSet()) + (a.toSet() - b.toSet())
-    val result = a.toSet() + b.toSet() - difference
-    return result.toList()
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b.toSet()).toList()
 
 /**
  * Средняя (3 балла)
@@ -211,15 +208,10 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val result = mutableMapOf<String, Double>()
-    val sumGroupPrices = stockPrices.groupBy({ it.first }) { it.second }.mapValues { it.value.sum() }
-    val count = stockPrices.groupBy({ it.first }) { it.second }.mapValues { it.value.size.toDouble() }
-    for ((key, value) in sumGroupPrices) {
-        for ((stock, counter) in count) {
-            if (stock == key) {
-                val pair = stock to (value / counter)
-                result += pair
-            }
-        }
+    val firstGroupPrices = stockPrices.groupBy({ it.first }) { it.second }
+    for ((key, value) in firstGroupPrices) {
+        val mean = mean(value)
+        result[key] = mean
     }
     return result
 }
@@ -244,13 +236,12 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var name: String? = null
     var i = 0
     for ((key, value) in stuff) {
-        if (kind == value.first && value.second < min) {
+        if (kind == value.first && value.second <= min) {
             min = value.second
             name = key
             i++
         }
     }
-    if (name?.isEmpty() == true) return ""
     return name
 }
 

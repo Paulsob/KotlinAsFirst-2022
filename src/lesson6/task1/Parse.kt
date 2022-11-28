@@ -121,28 +121,15 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    return if (!jumps.matches(Regex("""([0-9]+[0-9 %-]+)"""))) -1 else {
+    val newList = mutableListOf<Int>()
+    if (!jumps.matches(Regex("""([0-9]+[0-9 %-]+)"""))) return -1
+    else {
         val newJumps = jumps.replace(" -", "").replace(" %", "")
         val list = newJumps.split(" ")
-        val newList = mutableListOf<Int>()
         for (el in list)
             if (el != "") newList.add(el.toInt())
-
-        newList.sortedDescending()[0]
     }
-}
-
-fun nalogi(table: Map<String, Int>, taxes: String): Map<String, Int> {
-    val map = mapOf<String, Int>()
-    if (!taxes.matches(Regex("""(([А-я]+\s)+-\s)+\d+""")))
-        throw IllegalArgumentException()
-    val newTaxes = taxes.split(" - ")
-    for ((key, value) in table) {
-        if (key in newTaxes) {
-
-        }
-    }
-    return map
+    return newList.sortedDescending()[0]
 }
 
 /**
@@ -157,10 +144,11 @@ fun nalogi(table: Map<String, Int>, taxes: String): Map<String, Int> {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    return if (!jumps.matches(Regex("""([0-9]+[0-9 +%-]+)"""))) -1 else {
+    val list = mutableListOf<Int>()
+    if (!jumps.matches(Regex("""([0-9]+[0-9 +%-]+)"""))) return -1
+    else {
         val newJumps = jumps.split(" ")
         var oneTime = ""
-        val list = mutableListOf<Int>()
         for (str in newJumps) {
             for (el in str) {
                 if (el == '+') {
@@ -169,8 +157,8 @@ fun bestHighJump(jumps: String): Int {
             }
             oneTime = str
         }
-        list.max()
     }
+    return list.max()
 }
 
 /**
@@ -180,11 +168,11 @@ fun bestHighJump(jumps: String): Int {
  * использующее целые положительные числа, плюсы и минусы, разделённые пробелами.
  * Наличие двух знаков подряд "13 + + 10" или двух чисел подряд "1 2" не допускается.
  * Вернуть значение выражения (6 для примера).
- * Про нарушении формата входной строки бросить исключение IllegalArgumentException
+ * При нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
     if (!expression.matches(Regex("""(\d+(\s(\+|\-)\s\d+)*)""")))
-        throw IllegalArgumentException("class.java")
+        throw IllegalArgumentException()
     val list = expression.split(" ")
     val new = mutableListOf<Int>()
     var res = 0
@@ -203,26 +191,6 @@ fun plusMinus(expression: String): Int {
     return res
 }
 
-fun myFun(table: Map<String, Int>, taxes: String): String {
-    val newTaxes = taxes.split(" - ")
-    val res = mutableMapOf<String, Double>()
-    if (!taxes.matches(Regex("""(([А-я]+\s)+-\s)+\d+""")))
-        throw IllegalArgumentException()
-    for ((key, value) in table) {
-        val price = newTaxes[2].toDouble()
-        res += if (key in newTaxes) {
-            val nalog = price * value / 100
-            val pair = newTaxes[0] to nalog.toDouble()
-            pair
-        } else {
-            val nalog = price * 13 / 100
-            val pair = newTaxes[0] to nalog.toDouble()
-            pair
-        }
-    }
-    return res.joinToString(separator = ", ", postfix = ")", prefix = "(")
-}
-
 /**
  * Сложная (6 баллов)
  *
@@ -232,7 +200,19 @@ fun myFun(table: Map<String, Int>, taxes: String): String {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val newStr = str.lowercase().split(" ")
+    var count = 0
+    for (el in 0..newStr.size - 2) {
+        if (newStr[el] == newStr[el + 1]) {
+            return count
+        } else {
+            count += newStr[el].length + 1
+        }
+    }
+    return -1
+}
+
 /**
  * Сложная (6 баллов)
  *
