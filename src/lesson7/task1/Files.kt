@@ -131,7 +131,8 @@ fun centerFile(inputName: String, outputName: String) {
         for (j in 0 until spaces) {
             writer.write(" ")
         }
-        writer.write(i + "\n")
+        writer.write(i)
+        writer.newLine()
     }
     writer.close()
 }
