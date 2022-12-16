@@ -2,8 +2,10 @@
 
 package lesson6.task1
 
-import ru.spbstu.wheels.joinToString
 import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
+import java.util.*
+import kotlin.math.abs
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -123,12 +125,10 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     val newList = mutableListOf<Int>()
     if (!jumps.matches(Regex("""([0-9]+[0-9 %-]+)"""))) return -1
-    else {
-        val newJumps = jumps.replace(" -", "").replace(" %", "")
-        val list = newJumps.split(" ")
-        for (el in list)
-            if (el != "") newList.add(el.toInt())
-    }
+    val newJumps = jumps.replace(" -", "").replace(" %", "")
+    val list = newJumps.split(" ")
+    for (el in list)
+        if (el != "") newList.add(el.toInt())
     return newList.sortedDescending()[0]
 }
 
@@ -146,17 +146,15 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     val list = mutableListOf<Int>()
     if (!jumps.matches(Regex("""([0-9]+[0-9 +%-]+)"""))) return -1
-    else {
-        val newJumps = jumps.split(" ")
-        var oneTime = ""
-        for (str in newJumps) {
-            for (el in str) {
-                if (el == '+') {
-                    list.add(oneTime.toInt())
-                }
+    val newJumps = jumps.split(" ")
+    var oneTime = ""
+    for (str in newJumps) {
+        for (el in str) {
+            if (el == '+') {
+                list.add(oneTime.toInt())
             }
-            oneTime = str
         }
+        oneTime = str
     }
     return list.max()
 }

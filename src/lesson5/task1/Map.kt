@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import lesson4.task1.mean
+import ru.spbstu.wheels.NullableMonad.filter
 import ru.spbstu.wheels.sorted
 
 /**import lesson1.task1.seconds
@@ -206,15 +207,8 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val result = mutableMapOf<String, Double>()
-    val firstGroupPrices = stockPrices.groupBy({ it.first }) { it.second }
-    for ((key, value) in firstGroupPrices) {
-        val mean = mean(value)
-        result[key] = mean
-    }
-    return result
-}
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> =
+    stockPrices.groupBy({ it.first }) { it.second }.toList().associate { it.first to mean(it.second) }
 
 /**
  * Средняя (4 балла)
@@ -270,7 +264,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> =
-    list.groupBy { it }.mapValues { it.value.size }.filter { it.value >= 2 }
+    list.groupBy { it }.mapValues { it.value.size }.filterValues { it >= 2 }
+
 
 /**
  * Средняя (3 балла)
