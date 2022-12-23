@@ -165,7 +165,48 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val list = File(inputName).readLines()
+    var lengthOfWords = 0       // длина всех слов в строке
+    var lengthOfString = 0      // длина строки в целом
+    var numberOfSpaces = 0      // количество пробелов
+    var numberOfWords = 0       // количество слов
+    var whitespaces = 0         // количество пробелов, которое нужно добавить
+    var symbols = 0             // счетчик
+    for (str in list) {
+        val listOfWords = Regex("""\s+""").split(str.trim())
+        numberOfSpaces = listOfWords.size - 1
+        lengthOfWords = 0
+        for (element in listOfWords) {
+            lengthOfWords += element.length
+        }
+        if (numberOfSpaces + lengthOfWords > lengthOfString) lengthOfString = numberOfSpaces + lengthOfWords
+    }
+    for (str in list) {
+        val listOfWords = Regex("""\s+""").split(str.trim())        // список только из слов
+        val lengthOfListOfWords = listOfWords.sumOf { it.length }                // общая длина всех слов этого списка
+        numberOfWords = listOfWords.size
+        if (numberOfWords == 1) writer.write(str.trim()) else {
+            whitespaces = (lengthOfString - lengthOfListOfWords) / (numberOfWords - 1)
+            symbols = lengthOfString - lengthOfListOfWords - whitespaces * (numberOfWords - 1)
+            for (element in listOfWords) {
+                writer.write(element)
+                numberOfWords--
+                if (symbols != 0) {
+                    for (i in 0..whitespaces) {
+                        writer.write(" ")
+                    }
+                    symbols--
+                } else if (numberOfWords != 0) {
+                    for (j in 0 until whitespaces) {
+                        writer.write(" ")
+                    }
+                }
+            }
+        }
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
